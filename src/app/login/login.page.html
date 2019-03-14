@@ -1,0 +1,72 @@
+<ion-content padding>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>LoveDogs</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <form [formGroup]="formLogin">
+        <ion-row padding-horizontal>
+          <ion-col>
+            <ion-item>
+              <ion-label position="floating">Correo eléctronico</ion-label>
+              <ion-input
+                type="email"
+                formControlName="input_email"
+                required
+                required
+                maxlength="100"
+              ></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+
+        <ion-row padding-horizontal>
+          <ion-col size="10">
+            <ion-item>
+              <ion-label position="floating">Contraseña</ion-label>
+              <ion-input
+                #login_password
+                type="password"
+                formControlName="input_password"
+                required
+                maxlength="100"
+              ></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col size="2">
+            <ion-button
+              color="medium"
+              fill="clear"
+              class="remtop_1"
+              (click)="changeShowPassword()"
+            >
+              <ion-icon
+                slot="icon-only"
+                *ngIf="!showPassword"
+                name="eye"
+              ></ion-icon>
+              <ion-icon
+                slot="icon-only"
+                *ngIf="showPassword"
+                name="eye-off"
+              ></ion-icon>
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </form>
+
+      <div padding-horizontal>
+        <ion-button
+          padding-horizontal
+          text-center
+          color="primary"
+          expand="block"
+          [disabled]="!formLogin.valid"
+          (click)="login()"
+          >Ingresar</ion-button
+        >
+      </div>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

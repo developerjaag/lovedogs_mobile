@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
 
+import { FullCalendarModule } from 'ng-fullcalendar';
+
 import { HomePage } from './home.page';
 
 @NgModule({
@@ -11,6 +13,7 @@ import { HomePage } from './home.page';
     CommonModule,
     FormsModule,
     IonicModule,
+    FullCalendarModule,
     RouterModule.forChild([
       {
         path: '',
