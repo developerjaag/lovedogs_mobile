@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import {Owner} from '../../models/owner.model';
 
 @Injectable({
   providedIn: 'root'
@@ -6,4 +7,17 @@ import { Injectable } from '@angular/core';
 export class OwnersService {
 
   constructor() { }
+
+  saveOwner(newOwner: Owner){
+
+  }
+
+  listOwners(){
+
+  }
+
+  editOwner(){
+    
+  }
+
 }

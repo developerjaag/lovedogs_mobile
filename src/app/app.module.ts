@@ -19,6 +19,7 @@ import { environment } from '../environments/environment';
 import { AngularFirestore } from '@angular/fire/firestore';
 
 import { NewOwnerPageModule } from './new-owner/new-owner.module';
+import { NewPetPageModule } from './new-pet/new-pet.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -28,7 +29,8 @@ import { NewOwnerPageModule } from './new-owner/new-owner.module';
     IonicModule.forRoot(),
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
-    NewOwnerPageModule
+    NewOwnerPageModule,
+    NewPetPageModule
   ],
   providers: [
     StatusBar,

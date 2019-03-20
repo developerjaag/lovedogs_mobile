@@ -19,6 +19,7 @@ export class AuthService {
  // init lister for user data
  initAuthListener() {
   const me = this;
+  me.messagesService.showLoading();
   this.afAuth.authState.subscribe((fbUser: firebase.User) => {
     if (fbUser) {
       // check if is the first time to user enter
@@ -30,17 +31,19 @@ export class AuthService {
         .get()
         .then(function(doc) {
           if (doc.exists) {
-              me.messagesService.closeLoading();
               me.navCtrl.navigateRoot("/home");
           } else {
             me.messagesService.showAlert('Ups!', 'Datos no válidos');
           }
+          me.messagesService.closeLoading();
         })
         .catch(function(error) {
+          me.messagesService.closeLoading();
           console.log('error en user ref ', error);
           
         });
     }  else {
+      me.messagesService.closeLoading();
       this.navCtrl.navigateRoot("/login");
     }
   });

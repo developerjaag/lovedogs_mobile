@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {  ModalController } from '@ionic/angular';
+import {  ModalController, NavController } from '@ionic/angular';
 import { NewOwnerPage } from '../new-owner/new-owner.page';
 
 @Component({
@@ -9,7 +9,7 @@ import { NewOwnerPage } from '../new-owner/new-owner.page';
 })
 export class OwnersPage implements OnInit {
 
-  constructor(public modalController: ModalController) { }
+  constructor(public modalController: ModalController, public navController: NavController) { }
 
   ngOnInit() {
   }
@@ -22,6 +22,10 @@ export class OwnersPage implements OnInit {
     return await modal.present();
   }
 
+
+  goToPet() {
+    this.navController.navigateForward('/pets')
+  }
 
 
 }
