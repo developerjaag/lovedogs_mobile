@@ -13,36 +13,12 @@
 
   <ion-searchbar placeholder="Buscar cliente"></ion-searchbar>
   <ion-list>
-    <ion-item (click)="goToPet()">
+    <ion-item *ngFor="let owner of owners"  (click)="goToPet( owner.uid )">
       <ion-label>
         <ion-text color="primary">
-          <h2>Juan</h2>
+          <h2>{{ owner.name }}</h2>
         </ion-text>
-        <p>Tel:301 511 59 59</p>
-      </ion-label>
-    </ion-item>
-    <ion-item (click)="goToPet()">
-      <ion-label>
-        <ion-text color="primary">
-          <h2>Juan</h2>
-        </ion-text>
-        <p>Tel:301 511 59 59</p>
-      </ion-label>
-    </ion-item>
-    <ion-item (click)="goToPet()">
-      <ion-label>
-        <ion-text color="primary">
-          <h2>Alex</h2>
-        </ion-text>
-        <p>Tel:301 511 59 59</p>
-      </ion-label>
-    </ion-item>
-    <ion-item (click)="goToPet()">
-      <ion-label>
-        <ion-text color="primary">
-          <h2>Pablo</h2>
-        </ion-text>
-        <p>Tel:301 511 59 59</p>
+        <p *ngIf="owner.cellPhone" >Cel: {{ owner.cellPhone }} </p>
       </ion-label>
     </ion-item>
   </ion-list>

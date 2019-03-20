@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/firestore';
+
 import {Owner} from '../../models/owner.model';
 
 @Injectable({
@@ -6,14 +8,25 @@ import {Owner} from '../../models/owner.model';
 })
 export class OwnersService {
 
-  constructor() { }
+  constructor(private afs: AngularFirestore) { }
 
   saveOwner(newOwner: Owner){
+
+   return this.afs.collection("Owners").add({
+
+       name: newOwner.name,
+       email: newOwner.email,
+       phone: newOwner.phone,
+       cellPhone: newOwner.cellPhone,
+       address: newOwner.address,
+       note: newOwner.note
+
+    });
 
   }
 
   listOwners(){
-
+    return this.afs.collection("Owners").get().toPromise();
   }
 
   editOwner(){
