@@ -16,7 +16,7 @@ const routes: Routes = [
   { path: 'new-owner', loadChildren: './new-owner/new-owner.module#NewOwnerPageModule' },
   { path: 'new-pet', loadChildren: './new-pet/new-pet.module#NewPetPageModule' },
   { path: 'new-shedule', loadChildren: './new-shedule/new-shedule.module#NewShedulePageModule' },
-  { path: 'pets', loadChildren: './pets/pets.module#PetsPageModule' }
+  { path: 'pets/:id/:name', loadChildren: './pets/pets.module#PetsPageModule' }
 ];
 
 @NgModule({

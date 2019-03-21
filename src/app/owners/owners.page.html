@@ -13,7 +13,7 @@
 
   <ion-searchbar placeholder="Buscar cliente"></ion-searchbar>
   <ion-list>
-    <ion-item *ngFor="let owner of owners"  (click)="goToPet( owner.uid )">
+    <ion-item *ngFor="let owner of owners"  (click)="goToPet( owner.uid, owner.name )">
       <ion-label>
         <ion-text color="primary">
           <h2>{{ owner.name }}</h2>

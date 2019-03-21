@@ -1,23 +1,51 @@
-import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { Component, OnInit, Input } from "@angular/core";
+import { ModalController, AlertController } from "@ionic/angular";
 
 import { Camera, CameraOptions } from "@ionic-native/camera/ngx";
 
+import { MessagesService } from '../services/messages/messages.service';
 
 @Component({
-  selector: 'app-new-pet',
-  templateUrl: './new-pet.page.html',
-  styleUrls: ['./new-pet.page.scss'],
+  selector: "app-new-pet",
+  templateUrl: "./new-pet.page.html",
+  styleUrls: ["./new-pet.page.scss"]
 })
 export class NewPetPage implements OnInit {
+  @Input() uidOwner;
+  @Input() nameOwner;
 
-  photo = 'https://api.adorable.io/avatars/285/abott@adorable.png';
-  photoToSend = 'https://api.adorable.io/avatars/285/abott@adorable.png';
+  photo = "https://api.adorable.io/avatars/285/abott@adorable.png";
+  photoToSend = "https://api.adorable.io/avatars/285/abott@adorable.png";
 
-  constructor( private afs: AngularFirestore, private modalCtrl: ModalController, private camera: Camera,  ) { }
+  constructor(
+    private modalCtrl: ModalController,
+    private camera: Camera,
+    public alertController: AlertController,
+    private messagesService: MessagesService
+  ) {}
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  async selectOriginPhoto() {
+    const alert = await this.alertController.create({
+      header: 'Origen',
+      message: 'Elige el origen de la foto',
+      buttons: [
+        {
+          text: 'Álbum',
+          handler: () => {
+            this.chosePhoto(0);
+          }
+        }, {
+          text: 'Cámara',
+          handler: () => {
+            this.chosePhoto(1);
+          }
+        }
+      ]
+    });
+
+    await alert.present();
   }
 
   chosePhoto(sourceType: number) {
@@ -42,11 +70,9 @@ export class NewPetPage implements OnInit {
       },
       err => {
         // Handle error
-        console.log('Error al tomar la foto');
-        
+        this.messagesService.showAlert('Ups!', 'No se pudo completar el proceso...');
       }
     );
-
   }
 
   close() {

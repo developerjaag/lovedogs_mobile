@@ -1,12 +1,12 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Nueva mascota de Juan</ion-title>
+    <ion-title>Nueva mascota de {{ nameOwner }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
   <ion-card>
-      <img class='img-card' [src]="photo" />
+      <img class='img-card' [src]="photo" (click)="selectOriginPhoto()" />
 
     <ion-card-content>
       <ion-item>

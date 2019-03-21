@@ -72,7 +72,7 @@ export class OwnersPage implements OnInit {
     });
   }
 
-  goToPet(uidOwner: string) {
-    this.navController.navigateForward("/pets");
+  goToPet(uidOwner: string, name: string) {
+    this.navController.navigateForward("/pets/"+uidOwner+"/"+name);
   }
 }
