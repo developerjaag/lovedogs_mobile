@@ -1,9 +1,12 @@
 import { Component, OnInit } from "@angular/core";
 import { ModalController, NavController } from "@ionic/angular";
 import { NewOwnerPage } from "../new-owner/new-owner.page";
-
+import { FormControl } from "@angular/forms";
 import { MessagesService } from "../services/messages/messages.service";
 import { OwnersService } from "../services/owners/owners.service";
+
+import { debounceTime, startWith, map } from "rxjs/operators";
+import { Observable } from 'rxjs';
 
 @Component({
   selector: "app-owners",
@@ -11,7 +14,10 @@ import { OwnersService } from "../services/owners/owners.service";
   styleUrls: ["./owners.page.scss"]
 })
 export class OwnersPage implements OnInit {
+
   owners: any[] = [];
+  ownersOptions$: Observable<OwnersPage>
+  searchField = new FormControl('');
 
   constructor(
     public modalController: ModalController,
@@ -22,7 +28,18 @@ export class OwnersPage implements OnInit {
     this.loadOwners();
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.ownersOptions$ = this.searchField.valueChanges.pipe(
+      debounceTime(350),
+      startWith<string>(''),
+      map(value => value ? this.filterOwner(value) : this.owners.slice())
+    );
+  }
+
+  private filterOwner(value: string){
+    const filterValue = value.toLowerCase().trim();
+    return this.owners.filter(owner => owner.name.toLowerCase().includes(filterValue) );
+  }
 
   async addOwner() {
     const modal = await this.modalController.create({
@@ -73,6 +90,6 @@ export class OwnersPage implements OnInit {
   }
 
   goToPet(uidOwner: string, name: string) {
-    this.navController.navigateForward("/pets/"+uidOwner+"/"+name);
+    this.navController.navigateForward("/pets/" + uidOwner + "/" + name);
   }
 }
