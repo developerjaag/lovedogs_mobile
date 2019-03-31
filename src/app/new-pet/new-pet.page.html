@@ -4,48 +4,60 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content padding-vertical>
   <ion-card>
-      <img class='img-card' [src]="photo" (click)="selectOriginPhoto()" />
+    <img class='img-card' [src]="photo" (click)="selectOriginPhoto()" />
 
     <ion-card-content>
-      
+
+      <form [formGroup]="formNewPet">
       <ion-item>
         <ion-label position="floating">Nombre*</ion-label>
-        <ion-input type="text"></ion-input>
+        <ion-input type="text" formControlName="input_name"></ion-input>
       </ion-item>
 
       <ion-item>
-        <ion-label position="floating">E-mail</ion-label>
-        <ion-input type="email"></ion-input>
+        <ion-label>Tamaño</ion-label>
+        <ion-select placeholder="Elige..." okText="Elegir" cancelText="Cerrar" formControlName="input_size">
+          <ion-select-option value="pequeño">Pequeño</ion-select-option>
+          <ion-select-option value="mediano">Mediano</ion-select-option>
+          <ion-select-option value="grande">Grande</ion-select-option>
+          <ion-select-option value="gigante">Gigante</ion-select-option>
+
+        </ion-select>
+      </ion-item>
+
+
+      <ion-item>
+        <ion-label>Genero</ion-label>
+        <ion-select placeholder="Elige..." okText="Elegir" cancelText="Cerrar" formControlName="input_genere">
+          <ion-select-option value="macho">Macho</ion-select-option>
+          <ion-select-option value="hembra">Hembra</ion-select-option>
+        </ion-select>
       </ion-item>
 
       <ion-item>
-          <ion-label>Genero</ion-label>
-          <ion-select placeholder="Elige...">
-            <ion-select-option value="macho">Macho</ion-select-option>
-            <ion-select-option value="hembra">Hembra</ion-select-option>
-          </ion-select>
-        </ion-item>
-
-        <ion-item>
-            <ion-label>Raza</ion-label>
-            <ion-select okText="Elegir" cancelText="Cerrar">
-              <ion-select-option value="Husky">Husky</ion-select-option>
-              <ion-select-option value="Alaska">Alaska</ion-select-option>
-              <ion-select-option value="Mestizo">Mestizo</ion-select-option>
-            </ion-select>
-          </ion-item>
-
-      <ion-item>
-        <ion-label position="floating">Dirección</ion-label>
-        <ion-input type="text"></ion-input>
+        <ion-label>Raza</ion-label>
+        <ion-select placeholder="Elige..." okText="Elegir" cancelText="Cerrar" formControlName="input_race">
+          <ion-select-option value="Husky">Husky</ion-select-option>
+          <ion-select-option value="Alaska">Alaska</ion-select-option>
+          <ion-select-option value="Mestizo">Mestizo</ion-select-option>
+        </ion-select>
       </ion-item>
 
       <ion-item>
-        <ion-label position="floating">Nota</ion-label>
-        <ion-textarea></ion-textarea>
+        <ion-label>Fecha de nacimiento</ion-label>
+        <ion-datetime month-short-names="Ene, Feb, Mar, Abr, May, Jun, Jul, Ago, Sep, Oct, Nov, Dec"
+          display-format="MMM DD, YYYY" cancel-text="Cancelar" done-text="Elegir" formControlName="input_birthday"></ion-datetime>
       </ion-item>
+
+
+      <ion-item>
+        <ion-label position="floating" >Nota</ion-label>
+        <ion-textarea formControlName="input_note"></ion-textarea>
+      </ion-item>
+
+    </form>
 
       <ion-grid>
         <ion-row>
@@ -53,7 +65,7 @@
             <ion-button color="danger" (click)="close()">Cancelar</ion-button>
           </ion-col>
           <ion-col>
-            <ion-button color="primary" (click)="save()">Guardar</ion-button>
+            <ion-button color="primary" [disabled]="!formNewPet.valid" (click)="save()">Guardar</ion-button>
           </ion-col>
         </ion-row>
       </ion-grid>

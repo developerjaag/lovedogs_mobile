@@ -1,22 +1,23 @@
-import { Component, OnInit } from "@angular/core";
-import { ModalController, NavController } from "@ionic/angular";
-import { NewOwnerPage } from "../new-owner/new-owner.page";
-import { FormControl } from "@angular/forms";
-import { MessagesService } from "../services/messages/messages.service";
-import { OwnersService } from "../services/owners/owners.service";
+import { Component, OnInit } from '@angular/core';
+import { ModalController, NavController } from '@ionic/angular';
+import { NewOwnerPage } from '../new-owner/new-owner.page';
+import { FormControl } from '@angular/forms';
+import { MessagesService } from '../services/messages/messages.service';
+import { OwnersService } from '../services/owners/owners.service';
 
-import { debounceTime, startWith, map } from "rxjs/operators";
+import { debounceTime, startWith, map } from 'rxjs/operators';
+import { Owner } from '../models/owner.model';
 import { Observable } from 'rxjs';
 
 @Component({
-  selector: "app-owners",
-  templateUrl: "./owners.page.html",
-  styleUrls: ["./owners.page.scss"]
+  selector: 'app-owners',
+  templateUrl: './owners.page.html',
+  styleUrls: ['./owners.page.scss']
 })
 export class OwnersPage implements OnInit {
 
   owners: any[] = [];
-  ownersOptions$: Observable<OwnersPage>
+  ownersOptions$: Observable<Owner[]>;
   searchField = new FormControl('');
 
   constructor(
@@ -29,6 +30,9 @@ export class OwnersPage implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  listenFilter() {
     this.ownersOptions$ = this.searchField.valueChanges.pipe(
       debounceTime(350),
       startWith<string>(''),
@@ -36,9 +40,9 @@ export class OwnersPage implements OnInit {
     );
   }
 
-  private filterOwner(value: string){
+  private filterOwner(value: string) {
     const filterValue = value.toLowerCase().trim();
-    return this.owners.filter(owner => owner.name.toLowerCase().includes(filterValue) );
+    return this.owners.filter(owner => owner.name.toLowerCase().includes(filterValue));
   }
 
   async addOwner() {
@@ -51,6 +55,7 @@ export class OwnersPage implements OnInit {
     if (data) {
       this.owners.push(data.newOwner);
       this.orderOwners();
+      this.searchField.setValue(data.newOwner.name);
     }
   }
 
@@ -61,24 +66,25 @@ export class OwnersPage implements OnInit {
     const task = this.ownersService.listOwners();
 
     task
-      .then(function(querySnapshot) {
-        querySnapshot.forEach(function(doc) {
+      .then(function (querySnapshot) {
+        querySnapshot.forEach(function (doc) {
           const data = doc.data();
           data.uid = doc.id;
           me.owners.push(data);
         });
         me.orderOwners();
+        me.listenFilter();
         me.messagesService.closeLoading();
       })
-      .catch(function(error) {
-        console.log("Error getting documents: ", error);
+      .catch(function (error) {
+        console.log('Error getting documents: ', error);
         me.messagesService.closeLoading();
-        me.messagesService.showAlert("Error!", "Algo salío mal...");
+        me.messagesService.showAlert('Error!', 'Algo salió mal...');
       });
   }
 
   orderOwners() {
-    this.owners.sort(function(a, b) {
+    this.owners.sort(function (a, b) {
       if (a.name < b.name) {
         return -1;
       }
@@ -90,6 +96,6 @@ export class OwnersPage implements OnInit {
   }
 
   goToPet(uidOwner: string, name: string) {
-    this.navController.navigateForward("/pets/" + uidOwner + "/" + name);
+    this.navController.navigateForward('/pets/' + uidOwner + '/' + name);
   }
 }

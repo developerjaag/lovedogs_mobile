@@ -3,22 +3,26 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>Macotas de {{ ownerName }}</ion-title>
+    <ion-title>Mascotas de {{ ownerName }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
   <ion-list>
-    <ion-item (click)="dateilPet()">
+
+    <ion-item *ngFor="let pet of pets" (click)="detailPet()">
       <ion-avatar slot="start">
-        <img src="https://api.adorable.io/avatars/285/abott@adorable.png" />
+
+        <img *ngIf="pet.photo" [src]="pet.photo" />
+        <img *ngIf="!pet.photo" src="assets/petx64.png" />
       </ion-avatar>
       <ion-label>
-        <h3>Romeo</h3>
-        <p>Mestizo - Pequeño</p>
-        <p>Macho - 2 años</p>
+        <h3>{{ pet.name }}</h3>
+        <p>{{pet.race}} - {{pet.size}}</p>
+        <p>{{pet.genere}} - <span *ngIf="pet.ago" > {{ pet.ago }} </span></p>
       </ion-label>
     </ion-item>
+
   </ion-list>
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">

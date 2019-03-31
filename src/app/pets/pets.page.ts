@@ -1,19 +1,21 @@
-import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
-import { ModalController } from "@ionic/angular";
-import { NewPetPage } from "../new-pet/new-pet.page";
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { ModalController } from '@ionic/angular';
+import { NewPetPage } from '../new-pet/new-pet.page';
 
-import { MessagesService } from "../services/messages/messages.service";
-import { PetsService } from "../services/pets/pets.service";
+import { MessagesService } from '../services/messages/messages.service';
+import { PetsService } from '../services/pets/pets.service';
+
+import * as moment from 'moment';
 
 @Component({
-  selector: "app-pets",
-  templateUrl: "./pets.page.html",
-  styleUrls: ["./pets.page.scss"]
+  selector: 'app-pets',
+  templateUrl: './pets.page.html',
+  styleUrls: ['./pets.page.scss']
 })
 export class PetsPage implements OnInit {
-  ownerName = "";
-  uidOwner = "";
+  ownerName = '';
+  uidOwner = '';
   pets = [];
   constructor(
     public modalController: ModalController,
@@ -23,8 +25,8 @@ export class PetsPage implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.ownerName = this.route.snapshot.paramMap.get("name");
-    this.uidOwner = this.route.snapshot.paramMap.get("id");
+    this.ownerName = this.route.snapshot.paramMap.get('name');
+    this.uidOwner = this.route.snapshot.paramMap.get('id');
     this.getPets();
   }
 
@@ -37,6 +39,11 @@ export class PetsPage implements OnInit {
       .then(function(querySnapshot) {
         querySnapshot.forEach(function(doc) {
           const data = doc.data();
+          if ( data.birthday ) {
+            data.ago = moment(data.birthday).lang('es').from();
+            const temReplace = data.ago;
+            data.ago = temReplace.replace('hace', '');
+          }
           data.uid = doc.id;
           me.pets.push(data);
         });
@@ -44,9 +51,9 @@ export class PetsPage implements OnInit {
         me.messagesService.closeLoading();
       })
       .catch(function(error) {
-        console.log("Error getting documents: ", error);
+        console.log('Error getting documents: ', error);
         me.messagesService.closeLoading();
-        me.messagesService.showAlert("Error!", "Algo salío mal...");
+        me.messagesService.showAlert('Error!', 'Algo salió mal...');
       });
   }
 
@@ -62,7 +69,7 @@ export class PetsPage implements OnInit {
     });
   }
 
-  dateilPet() {}
+  detailPet() {}
 
   async addPet() {
     const modal = await this.modalController.create({
@@ -72,6 +79,15 @@ export class PetsPage implements OnInit {
         'nameOwner': this.ownerName
       }
     });
-    return await modal.present();
-  }
+    await modal.present();
+    const { data } = await modal.onDidDismiss();
+    if (data) {
+      if ( data.newPet.photo ) {
+        const temPhoto = 'data:image/jpeg;base64,' + data.newPet.photo;
+        data.newPet.photo = temPhoto;
+      }
+      this.pets.push(data.newPet);
+      this.orderPets();
+    }
+  } // and addPet
 }

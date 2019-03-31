@@ -10,9 +10,9 @@ export class OwnersService {
 
   constructor(private afs: AngularFirestore) { }
 
-  saveOwner(newOwner: Owner){
+  saveOwner(newOwner: Owner) {
 
-   return this.afs.collection("Owners").add({
+   return this.afs.collection('Owners').add({
 
        name: newOwner.name,
        email: newOwner.email,
@@ -26,10 +26,10 @@ export class OwnersService {
   }
 
   listOwners(){
-    return this.afs.collection("Owners").get().toPromise();
+    return this.afs.collection('Owners').get().toPromise();
   }
 
-  editOwner(){
+  editOwner() {
     
   }
 

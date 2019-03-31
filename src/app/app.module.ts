@@ -20,6 +20,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 
 import { NewOwnerPageModule } from './new-owner/new-owner.module';
 import { NewPetPageModule } from './new-pet/new-pet.module';
+import { NewShedulePageModule } from './new-shedule/new-shedule.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -30,7 +31,8 @@ import { NewPetPageModule } from './new-pet/new-pet.module';
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
     NewOwnerPageModule,
-    NewPetPageModule
+    NewPetPageModule,
+    NewShedulePageModule
   ],
   providers: [
     StatusBar,

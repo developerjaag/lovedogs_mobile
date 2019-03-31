@@ -1,16 +1,16 @@
-import { Component, OnInit } from "@angular/core";
-import { ModalController } from "@ionic/angular";
+import { Component, OnInit } from '@angular/core';
+import { ModalController } from '@ionic/angular';
 
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { Owner } from "../models/owner.model";
-import { OwnersService } from "../services/owners/owners.service";
-import { MessagesService } from "../services/messages/messages.service";
+import { Owner } from '../models/owner.model';
+import { OwnersService } from '../services/owners/owners.service';
+import { MessagesService } from '../services/messages/messages.service';
 
 @Component({
-  selector: "app-new-owner",
-  templateUrl: "./new-owner.page.html",
-  styleUrls: ["./new-owner.page.scss"]
+  selector: 'app-new-owner',
+  templateUrl: './new-owner.page.html',
+  styleUrls: ['./new-owner.page.scss']
 })
 export class NewOwnerPage implements OnInit {
   formNewOwner: FormGroup;
@@ -28,12 +28,12 @@ export class NewOwnerPage implements OnInit {
 
   validartorsFormNewOwner() {
     return this.formBuilder.group({
-      input_name: ["", [Validators.required]],
-      input_email: ["", [Validators.email]],
-      input_cellPhone: [""],
-      input_phone: [""],
-      input_address: [""],
-      input_note: [""]
+      input_name: ['', [Validators.required]],
+      input_email: ['', [Validators.email]],
+      input_cellPhone: [''],
+      input_phone: [''],
+      input_address: [''],
+      input_note: ['']
     });
   } // end validartorsFormLogin
 

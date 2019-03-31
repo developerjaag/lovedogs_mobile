@@ -1,30 +1,53 @@
-import { Component, OnInit, Input } from "@angular/core";
-import { ModalController, AlertController } from "@ionic/angular";
+import { Component, OnInit, Input } from '@angular/core';
+import { ModalController, AlertController } from '@ionic/angular';
 
-import { Camera, CameraOptions } from "@ionic-native/camera/ngx";
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 
 import { MessagesService } from '../services/messages/messages.service';
+import { Pet } from '../models/pet.model';
+import { PetsService } from '../services/pets/pets.service';
 
 @Component({
-  selector: "app-new-pet",
-  templateUrl: "./new-pet.page.html",
-  styleUrls: ["./new-pet.page.scss"]
+  selector: 'app-new-pet',
+  templateUrl: './new-pet.page.html',
+  styleUrls: ['./new-pet.page.scss']
 })
 export class NewPetPage implements OnInit {
   @Input() uidOwner;
   @Input() nameOwner;
 
-  photo = "https://api.adorable.io/avatars/285/abott@adorable.png";
-  photoToSend = "https://api.adorable.io/avatars/285/abott@adorable.png";
+  photo = 'assets/pet.png';
+  photoToSend = '';
+
+  formNewPet: FormGroup;
 
   constructor(
+    public formBuilder: FormBuilder,
     private modalCtrl: ModalController,
     private camera: Camera,
     public alertController: AlertController,
-    private messagesService: MessagesService
-  ) {}
+    private messagesService: MessagesService,
+    private petsService: PetsService
+  ) {
 
-  ngOnInit() {}
+  }
+
+  ngOnInit() {
+    this.formNewPet = this.validartorsFormNewPet();
+  }
+
+  validartorsFormNewPet() {
+    return this.formBuilder.group({
+      input_name: ['', [Validators.required]],
+      input_size: [''],
+      input_genere: [''],
+      input_race: [''],
+      input_birthday: [''],
+      input_note: ['']
+    });
+  } // end validartorsFormLogin
 
   async selectOriginPhoto() {
     const alert = await this.alertController.create({
@@ -64,7 +87,7 @@ export class NewPetPage implements OnInit {
       imageData => {
         // imageData is either a base64 encoded string or a file URI
         // If it's base64:
-        const base64Image = "data:image/jpeg;base64," + imageData;
+        const base64Image = 'data:image/jpeg;base64,' + imageData;
         this.photo = base64Image;
         this.photoToSend = imageData;
       },
@@ -80,6 +103,36 @@ export class NewPetPage implements OnInit {
   }
 
   save() {
-    this.modalCtrl.dismiss();
+    this.messagesService.showLoading();
+
+
+    const newPet: Pet = {
+      name: this.formNewPet.value.input_name,
+      race: this.formNewPet.value.input_race,
+      birthday: this.formNewPet.value.input_birthday,
+      genere: this.formNewPet.value.input_genere,
+      size: this.formNewPet.value.input_size,
+      note: this.formNewPet.value.input_note
+    };
+
+    const task = this.petsService.savePet(newPet, this.uidOwner);
+    task.then((data) => {
+      newPet.uid = data.id;
+
+      if ( this.photoToSend ) {
+        newPet.photo = this.photoToSend;
+        this.petsService.savePhoto(newPet.uid, this.photoToSend);
+      }
+
+      this.messagesService.closeLoading();
+      this.messagesService.presentToast('Mascota guardada!');
+      this.modalCtrl.dismiss({
+        'newPet': newPet
+      });
+    }).catch((err) => {
+      console.log(JSON.stringify(err));
+      this.messagesService.closeLoading();
+      this.messagesService.showAlert('Error!', 'Algo salio mal...');
+    });
   }
 }
