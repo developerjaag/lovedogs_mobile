@@ -31,6 +31,7 @@ export class PetsPage implements OnInit {
   }
 
   getPets() {
+    moment.locale('es');
     this.pets = [];
     this.messagesService.showLoading();
     const me = this;
@@ -40,7 +41,9 @@ export class PetsPage implements OnInit {
         querySnapshot.forEach(function(doc) {
           const data = doc.data();
           if ( data.birthday ) {
-            data.ago = moment(data.birthday).lang('es').from();
+            const a = moment(data.birthday);
+            const b = moment();
+            data.ago = a.from(b);
             const temReplace = data.ago;
             data.ago = temReplace.replace('hace', '');
           }
