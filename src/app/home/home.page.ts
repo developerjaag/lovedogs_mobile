@@ -1,7 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MenuController } from '@ionic/angular';
 
+import { OptionsInput } from '@fullcalendar/core';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import interactionPlugin from '@fullcalendar/interaction';
 import { CalendarComponent } from 'ng-fullcalendar';
+
 import { Options } from 'fullcalendar';
 import * as moment from 'moment';
 
@@ -16,9 +20,10 @@ import { NewShedulePage } from '../new-shedule/new-shedule.page';
   styleUrls: ['home.page.scss']
 })
 export class HomePage implements OnInit {
-  calendarOptions: Options;
+  calendarOptions: OptionsInput;
   @ViewChild(CalendarComponent) ucCalendar: CalendarComponent;
   events = [];
+  view = 'agendaWeek';
 
   constructor(private menu: MenuController, public modalController: ModalController) {
     this.menu.enable(true, 'first');
@@ -38,10 +43,11 @@ export class HomePage implements OnInit {
         today: 'Hoy'
       },
       allDaySlot: false,
-      minTime: moment.duration('06:00:00'),
+      minTime: '06:00:00',
       nowIndicator: true,
       editable: true,
       eventLimit: false,
+      navLinks: true,
       events: [
         {
           id: 'id3',
@@ -55,9 +61,27 @@ export class HomePage implements OnInit {
           start: '2019-03-13T15:30:00',
           duration: '02:00:00'
         }
-      ]
+      ],
+      plugins: [dayGridPlugin, interactionPlugin]
+
     };
   } // end ngOnInit
+
+  dayClick(model) {
+    console.log(model.date.format());
+  }
+
+  navLinkDayClick(model?) {
+
+    if (this.view === 'agendaWeek') {
+      this.ucCalendar.fullCalendar( 'changeView', 'agendaDay' );
+      this.ucCalendar.fullCalendar('gotoDate', model.date);
+      this.view = 'agendaDay';
+    } else {
+      this.ucCalendar.fullCalendar( 'changeView', 'agendaWeek' );
+      this.view = 'agendaWeek';
+    }
+  }
 
   eventClick(event) {
     console.log(event);

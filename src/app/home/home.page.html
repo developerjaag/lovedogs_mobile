@@ -6,18 +6,19 @@
     <ion-title>
       Calendario
     </ion-title>
+    <ion-buttons slot="end" *ngIf="view != 'agendaWeek'" (click)="navLinkDayClick()">
+        <ion-icon color="primary" slot="icon-only" name="calendar"></ion-icon>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding-top">
+
   <div *ngIf="calendarOptions">
-    <ng-fullcalendar
-      #ucCalendar
-      [options]="calendarOptions"
-      [(eventsModel)]="events"
-      (eventClick)="eventClick($event.detail)"
-    ></ng-fullcalendar>
+    <ng-fullcalendar #ucCalendar [options]="calendarOptions" [(eventsModel)]="events"
+      (eventClick)="eventClick($event.detail)" (dayClick)="dayClick($event.detail)"  (navLinkDayClick)="navLinkDayClick($event.detail)"></ng-fullcalendar>
   </div>
+
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button (click)="addEvent()">
       <ion-icon name="add"></ion-icon>
