@@ -68,7 +68,7 @@ export class HomePage implements OnInit {
   } // end ngOnInit
 
   dayClick(model) {
-    console.log(model.date.format());
+    this.openModal(model.date.format());
   }
 
   navLinkDayClick(model?) {
@@ -85,6 +85,7 @@ export class HomePage implements OnInit {
 
   eventClick(event) {
     console.log(event);
+    // click on event
   }
 
   addEvent2() {
@@ -99,10 +100,19 @@ export class HomePage implements OnInit {
     this.ucCalendar.fullCalendar('rerenderEvents');
   }
 
-  async addEvent() {
+
+  async openModal(date?) {
+    let dateSend = '';
+    if (date) {
+      dateSend =  date;
+    }
     const modal = await this.modalController.create({
-      component: NewShedulePage
+      component: NewShedulePage,
+      componentProps: {
+        'date': dateSend
+      }
     });
     await modal.present();
   }
+
 }// end class

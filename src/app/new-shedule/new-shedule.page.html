@@ -1,9 +1,76 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>newShedule</ion-title>
+    <ion-title>Nueva cita</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content>
+
+  <ion-card>
+
+    <ion-card-content>
+
+      <ion-item>
+        <ion-searchbar [formControl]="searchField" placeholder="Buscar cliente"></ion-searchbar>
+      </ion-item>
+
+      <ion-list  [hidden]="!showList">
+        <ion-item *ngFor="let owner of ownersOptions$ | async" (click)="loadPets(owner.uid)">
+          <ion-label>
+            <ion-text color="primary">
+              <h2>{{ owner.name }}</h2>
+            </ion-text>
+            <p *ngIf="owner.cellPhone">Cel: {{ owner.cellPhone }}</p>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+
+      <ion-item>
+        <ion-label>Mascota</ion-label>
+        <ion-select value="brown" okText="Okay" cancelText="Dismiss">
+          <ion-select-option value="brown">Brown</ion-select-option>
+          <ion-select-option value="blonde">Blonde</ion-select-option>
+          <ion-select-option value="black">Black</ion-select-option>
+          <ion-select-option value="red">Red</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <form [formGroup]="formNewSchedule">
+
+        <ion-item>
+          <ion-label>Fecha y hora</ion-label>
+          <ion-datetime month-short-names="Ene, Feb, Mar, Abr, May, Jun, Jul, Ago, Sep, Oct, Nov, Dec"
+            cancel-text="Cancelar" done-text="Elegir" formControlName="input_date" display-format="DD MMM h:mm A">
+          </ion-datetime>
+        </ion-item>
+
+      </form>
+
+      <ion-item>
+        <ion-label>Categoría</ion-label>
+        <ion-select value="brown" okText="Okay" cancelText="Dismiss">
+          <ion-select-option value="brown">Brown</ion-select-option>
+          <ion-select-option value="blonde">Blonde</ion-select-option>
+          <ion-select-option value="black">Black</ion-select-option>
+          <ion-select-option value="red">Red</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-button color="danger" (click)="close()">Cancelar</ion-button>
+          </ion-col>
+          <ion-col>
+            <ion-button color="primary" [disabled]="!formNewSchedule.valid" (click)="save()">Guardar</ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+    </ion-card-content>
+  </ion-card>
+
+
 
 </ion-content>
