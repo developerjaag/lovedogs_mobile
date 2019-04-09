@@ -14,8 +14,8 @@
         <ion-searchbar [formControl]="searchField" placeholder="Buscar cliente"></ion-searchbar>
       </ion-item>
 
-      <ion-list  [hidden]="!showList">
-        <ion-item *ngFor="let owner of ownersOptions$ | async" (click)="loadPets(owner.uid)">
+      <ion-list [hidden]="!showList">
+        <ion-item *ngFor="let owner of ownersOptions$ | async" (click)="loadPets(owner)">
           <ion-label>
             <ion-text color="primary">
               <h2>{{ owner.name }}</h2>
@@ -25,17 +25,17 @@
         </ion-item>
       </ion-list>
 
-      <ion-item>
-        <ion-label>Mascota</ion-label>
-        <ion-select value="brown" okText="Okay" cancelText="Dismiss">
-          <ion-select-option value="brown">Brown</ion-select-option>
-          <ion-select-option value="blonde">Blonde</ion-select-option>
-          <ion-select-option value="black">Black</ion-select-option>
-          <ion-select-option value="red">Red</ion-select-option>
-        </ion-select>
-      </ion-item>
-
       <form [formGroup]="formNewSchedule">
+
+
+        <ion-item>
+          <ion-label>Mascota</ion-label>
+          <ion-select okText="Elegir" cancelText="Cancelar" [disabled]="pets.length < 1" formControlName="input_pet">
+            <ion-select-option *ngFor="let pet of pets" [value]="pet"> {{pet.name}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+
 
         <ion-item>
           <ion-label>Fecha y hora</ion-label>
@@ -44,17 +44,16 @@
           </ion-datetime>
         </ion-item>
 
-      </form>
+        <ion-item>
+          <ion-label>Categoría</ion-label>
+          <ion-select okText="Elegir" cancelText="Cerrar" formControlName="input_category">
+            <ion-select-option value="completo">Completo (1h)</ion-select-option>
+            <ion-select-option value="unas">Uñas (15m)</ion-select-option>
+            <ion-select-option value="motilar">Motilar (30m)</ion-select-option>
+          </ion-select>
+        </ion-item>
 
-      <ion-item>
-        <ion-label>Categoría</ion-label>
-        <ion-select value="brown" okText="Okay" cancelText="Dismiss">
-          <ion-select-option value="brown">Brown</ion-select-option>
-          <ion-select-option value="blonde">Blonde</ion-select-option>
-          <ion-select-option value="black">Black</ion-select-option>
-          <ion-select-option value="red">Red</ion-select-option>
-        </ion-select>
-      </ion-item>
+      </form>
 
 
       <ion-grid>

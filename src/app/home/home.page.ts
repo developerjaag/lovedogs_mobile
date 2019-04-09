@@ -52,8 +52,8 @@ export class HomePage implements OnInit {
         {
           id: 'id3',
           title: 'Kiana',
-          start: '2019-03-12T12:30:00',
-          end: '2019-03-12T14:30:00'
+          start: '2019-04-12T12:30:00',
+          end: '2019-04-12T13:30:00'
         },
         {
           id: 'id2',
@@ -92,7 +92,7 @@ export class HomePage implements OnInit {
     const event = {
       id: 'added',
       title: 'Zack',
-      start: '2019-03-14T11:30:00',
+      start: '2019-04-08T11:30:00',
       duration: '00:30:00'
     };
 

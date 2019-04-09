@@ -1,8 +1,10 @@
-export interface shedule {
-    uid?: string;
-    dateTime: Date;
+export interface Schedule {
+    id?: string;
+    tittle: string;
     uidOwner: string;
     uidPet: string;
     note?: string;
-    dateOrigin: Date;
+    start: any;
+    end: any;
+    backgroundColor?: string;
 }
