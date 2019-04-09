@@ -14,7 +14,7 @@ export class SheduleService {
 
   saveSchedule(newSchedule: Schedule) {
     return this.afs.collection('Schedule').add({
-      tittle: newSchedule.tittle,
+      tittle: newSchedule.title,
       uidOwner: newSchedule.uidOwner,
       uidPet: newSchedule.uidPet,
       start: newSchedule.start,

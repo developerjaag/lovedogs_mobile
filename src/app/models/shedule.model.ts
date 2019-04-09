@@ -1,6 +1,6 @@
 export interface Schedule {
     id?: string;
-    tittle: string;
+    title: string;
     uidOwner: string;
     uidPet: string;
     note?: string;

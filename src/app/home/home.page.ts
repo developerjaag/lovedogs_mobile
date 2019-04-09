@@ -113,6 +113,14 @@ export class HomePage implements OnInit {
       }
     });
     await modal.present();
-  }
+
+    const { data } = await modal.onDidDismiss();
+    if (data) {
+      this.events.push(data.newSchedule);
+      this.ucCalendar.fullCalendar('renderEvent', data.newSchedule);
+    this.ucCalendar.fullCalendar('rerenderEvents');
+    }
+
+  } // end openModal
 
 }// end class

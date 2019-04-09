@@ -166,7 +166,7 @@ export class NewShedulePage implements OnInit {
     switch (this.formNewSchedule.value.input_category) {
       case 'completo':
         toAdd = '60';
-        color = 'green';
+        color = 'blue';
         break;
       case 'unas':
         toAdd = '15';
@@ -174,7 +174,7 @@ export class NewShedulePage implements OnInit {
         break;
       case 'motilar':
         toAdd = '30';
-        color = 'yellow';
+        color = 'green';
         break;
 
       default:
@@ -188,7 +188,7 @@ export class NewShedulePage implements OnInit {
     const newSchedule: Schedule = {
       start: this.date,
       end: end,
-      tittle: this.formNewSchedule.value.input_pet.name,
+      title: this.formNewSchedule.value.input_pet.name,
       uidPet: this.formNewSchedule.value.input_pet.uid,
       uidOwner: this.ownerSelected.uid,
       backgroundColor: color
@@ -200,7 +200,7 @@ export class NewShedulePage implements OnInit {
       this.messagesService.closeLoading();
       this.messagesService.presentToast('Cita agendada!');
       this.modalCtrl.dismiss({
-        'newPet': newSchedule
+        'newSchedule': newSchedule
       });
     }).catch((err) => {
       console.log(JSON.stringify(err));
