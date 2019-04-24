@@ -24,4 +24,8 @@ export class SheduleService {
 
   }
 
+  getSchedules() {
+    return this.afs.collection('Schedule').get().toPromise();
+  }
+
 }

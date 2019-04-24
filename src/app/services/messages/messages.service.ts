@@ -6,9 +6,9 @@ import { AlertController, LoadingController, ToastController } from '@ionic/angu
 })
 export class MessagesService {
 
-  loading : any;
+  loading: any;
 
-  constructor(public alertController: AlertController, 
+  constructor(public alertController: AlertController,
     public loadingController: LoadingController, public toastController: ToastController) { }
 
   async showLoading() {
@@ -22,10 +22,10 @@ export class MessagesService {
 
   closeLoading() {
 
-    if( this.loading ) {
-      this.loading.dismiss()
+    if (this.loading) {
+      this.loading.dismiss();
     }
-    
+
   }
 
   async showAlert(header, message, subHeader?) {

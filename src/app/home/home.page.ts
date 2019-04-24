@@ -9,9 +9,13 @@ import { CalendarComponent } from 'ng-fullcalendar';
 import { Options } from 'fullcalendar';
 import * as moment from 'moment';
 
-import { ModalController } from '@ionic/angular';
-
+import { ModalController, ToastController } from '@ionic/angular';
 import { NewShedulePage } from '../new-shedule/new-shedule.page';
+import { ScheduleDetailPage } from '../schedule-detail/schedule-detail.page';
+
+import { MessagesService } from '../services/messages/messages.service';
+import { SheduleService } from '../services/shedule/shedule.service';
+
 
 
 @Component({
@@ -23,9 +27,11 @@ export class HomePage implements OnInit {
   calendarOptions: OptionsInput;
   @ViewChild(CalendarComponent) ucCalendar: CalendarComponent;
   events = [];
+  eventsModel: any;
   view = 'agendaWeek';
 
-  constructor(private menu: MenuController, public modalController: ModalController) {
+  constructor(private menu: MenuController, public modalController: ModalController, private messagesService: MessagesService,
+    private sheduleService: SheduleService, public toastController: ToastController) {
     this.menu.enable(true, 'first');
   }
 
@@ -48,63 +54,89 @@ export class HomePage implements OnInit {
       editable: true,
       eventLimit: false,
       navLinks: true,
-      events: [
-        {
-          id: 'id3',
-          title: 'Kiana',
-          start: '2019-04-12T12:30:00',
-          end: '2019-04-12T13:30:00'
-        },
-        {
-          id: 'id2',
-          title: 'Romeo',
-          start: '2019-03-13T15:30:00',
-          duration: '02:00:00'
-        }
-      ],
+      events: this.events,
       plugins: [dayGridPlugin, interactionPlugin]
 
     };
+    this.loadEvents();
   } // end ngOnInit
+
+  async loadEvents() {
+    this.events = [];
+    this.eventsModel = [];
+    const toast = await this.toastController.create({
+      message: 'Cargando citas...',
+      position: 'middle',
+    });
+    toast.present();
+    const me = this;
+    const task = this.sheduleService.getSchedules();
+
+    task
+      .then(function (querySnapshot) {
+        querySnapshot.forEach(function (doc) {
+          const data = doc.data();
+          data.uid = doc.id;
+          const object = {
+            id: data.uid,
+            title: data.tittle,
+            start: data.start,
+            end: data.end,
+            backgroundColor: data.backgroundColor,
+            extendedProps: {
+              uidOwner: data.uidOwner,
+              uidPet: data.uidPet
+            }
+          };
+          me.ucCalendar.fullCalendar('renderEvent', object);
+         // me.events.push(object);
+          me.eventsModel.push(object);
+        });
+        me.ucCalendar.fullCalendar('rerenderEvents');
+        toast.dismiss();
+        //  me.messagesService.closeLoading();
+      })
+      .catch(function (error) {
+        console.log('Error getting documents: ', error);
+        // me.messagesService.closeLoading();
+        me.messagesService.showAlert('Error!', 'Algo salió mal...');
+      });
+
+  }
 
   dayClick(model) {
     this.openModal(model.date.format());
   }
 
   navLinkDayClick(model?) {
-
     if (this.view === 'agendaWeek') {
-      this.ucCalendar.fullCalendar( 'changeView', 'agendaDay' );
+      this.ucCalendar.fullCalendar('changeView', 'agendaDay');
       this.ucCalendar.fullCalendar('gotoDate', model.date);
       this.view = 'agendaDay';
     } else {
-      this.ucCalendar.fullCalendar( 'changeView', 'agendaWeek' );
+      this.ucCalendar.fullCalendar('changeView', 'agendaWeek');
       this.view = 'agendaWeek';
     }
   }
 
   eventClick(event) {
-    console.log(event);
-    // click on event
+    this.openScheduleDetail(event);
   }
 
-  addEvent2() {
-    const event = {
-      id: 'added',
-      title: 'Zack',
-      start: '2019-04-08T11:30:00',
-      duration: '00:30:00'
-    };
-
-    this.ucCalendar.fullCalendar('renderEvent', event);
-    this.ucCalendar.fullCalendar('rerenderEvents');
+  async openScheduleDetail( schedule ) {
+    const modal = await this.modalController.create({
+      component: ScheduleDetailPage,
+      componentProps: {
+        'schedule': schedule
+      }
+    });
+    await modal.present();
   }
-
 
   async openModal(date?) {
     let dateSend = '';
     if (date) {
-      dateSend =  date;
+      dateSend = date;
     }
     const modal = await this.modalController.create({
       component: NewShedulePage,
@@ -118,7 +150,7 @@ export class HomePage implements OnInit {
     if (data) {
       this.events.push(data.newSchedule);
       this.ucCalendar.fullCalendar('renderEvent', data.newSchedule);
-    this.ucCalendar.fullCalendar('rerenderEvents');
+      this.ucCalendar.fullCalendar('rerenderEvents');
     }
 
   } // end openModal

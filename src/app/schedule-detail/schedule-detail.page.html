@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title class="ion-text-center">Cita de {{ schedule.event.title }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+  <ion-segment [(ngModel)]="segment">
+    <ion-segment-button value="Cita" class="ion-text-capitalize">
+      Cita
+    </ion-segment-button>
+    <ion-segment-button value="Anteriores" class="ion-text-capitalize">
+      Anteriores
+    </ion-segment-button>
+  </ion-segment>
+
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar class="ion-text-center">
+    <ion-button fill="clear" (click)="close()">
+      cerrar
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>
