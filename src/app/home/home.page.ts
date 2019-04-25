@@ -78,6 +78,7 @@ export class HomePage implements OnInit {
           const data = doc.data();
           data.uid = doc.id;
           const object = {
+            stick: true,
             id: data.uid,
             title: data.tittle,
             start: data.start,
@@ -88,7 +89,7 @@ export class HomePage implements OnInit {
               uidPet: data.uidPet
             }
           };
-          me.ucCalendar.fullCalendar('renderEvent', object);
+          me.ucCalendar.fullCalendar('renderEvent', object, true);
          // me.events.push(object);
           me.eventsModel.push(object);
         });
@@ -149,7 +150,7 @@ export class HomePage implements OnInit {
     const { data } = await modal.onDidDismiss();
     if (data) {
       this.events.push(data.newSchedule);
-      this.ucCalendar.fullCalendar('renderEvent', data.newSchedule);
+      this.ucCalendar.fullCalendar('renderEvent', data.newSchedule, true);
       this.ucCalendar.fullCalendar('rerenderEvents');
     }
 
