@@ -90,7 +90,7 @@ export class HomePage implements OnInit {
             }
           };
           me.ucCalendar.fullCalendar('renderEvent', object, true);
-         // me.events.push(object);
+          // me.events.push(object);
           me.eventsModel.push(object);
         });
         me.ucCalendar.fullCalendar('rerenderEvents');
@@ -124,7 +124,7 @@ export class HomePage implements OnInit {
     this.openScheduleDetail(event);
   }
 
-  async openScheduleDetail( schedule ) {
+  async openScheduleDetail(schedule) {
     const modal = await this.modalController.create({
       component: ScheduleDetailPage,
       componentProps: {
