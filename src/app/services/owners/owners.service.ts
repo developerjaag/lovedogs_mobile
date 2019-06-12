@@ -29,6 +29,10 @@ export class OwnersService {
     return this.afs.collection('Owners').get().toPromise();
   }
 
+  getOwner(uid: string) {
+    return this.afs.collection('Owners').doc(uid).get().toPromise();
+  }
+
   editOwner() {
 
   }

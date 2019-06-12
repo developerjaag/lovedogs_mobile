@@ -64,6 +64,11 @@ export class PetsService {
   } // end savePhoto
 
 
+  petDetail(uid: string) {
+    return this.afs.collection('Pets').doc(uid).get().toPromise();
+  }
+
+
   updatePet(pet: Pet) {
 
   }

@@ -15,6 +15,108 @@
     </ion-segment-button>
   </ion-segment>
 
+  <span [ngSwitch]="segment">
+
+    <!--Segmento cita-->
+    <div *ngSwitchCase="'Cita'">
+
+      <ion-card>
+        <ion-card-content>
+
+          <ion-item *ngIf="ownerData">
+            <ion-label>
+              <p> {{ ownerData.name }}</p>
+              <p>Tel: {{ ownerData.cellPhone  }} / {{ ownerData.phone  }}</p>
+              <p *ngIf="ownerData.note">
+                <ion-note> {{ ownerData.note }} </ion-note>
+              </p>
+            </ion-label>
+          </ion-item>
+
+
+          <ion-item *ngIf="petData">
+            <ion-avatar slot="start">
+
+              <img *ngIf="petData.photo" [src]="petData.photo" />
+              <img *ngIf="!petData.photo" src="assets/petx64.png" />
+            </ion-avatar>
+            <ion-label>
+              <h3>{{ petData.name }}</h3>
+              <p>{{petData.race}} - {{petData.size}}</p>
+              <p>{{petData.genere}} - <span *ngIf="petData.ago"> {{ petData.ago }} </span></p>
+              <p *ngIf="petData.note">
+                <ion-note> {{ petData.note }} </ion-note>
+              </p>
+            </ion-label>
+          </ion-item>
+
+          <form [formGroup]="formDetail">
+
+            <ion-item>
+              <ion-label>Fecha y hora</ion-label>
+              <ion-datetime month-short-names="Ene, Feb, Mar, Abr, May, Jun, Jul, Ago, Sep, Oct, Nov, Dec"
+                cancel-text="Cancelar" done-text="Elegir" formControlName="input_date" display-format="DD MMM h:mm A">
+              </ion-datetime>
+            </ion-item>
+
+            <ion-item>
+              <ion-label>Categoría</ion-label>
+              <ion-select okText="Elegir" cancelText="Cerrar" formControlName="input_category">
+                <ion-select-option value="completo">Completo (1h)</ion-select-option>
+                <ion-select-option value="unas">Uñas (15m)</ion-select-option>
+                <ion-select-option value="motilar">Motilar (30m)</ion-select-option>
+              </ion-select>
+            </ion-item>
+
+          </form>
+
+          <ion-grid>
+            <ion-row>
+              <ion-col>
+                <ion-button color="danger" fill="clear" (click)="cancelarCita()">Cancelar cita</ion-button>
+              </ion-col>
+              <ion-col>
+                <ion-button color="primary" fill="clear" [disabled]="!formDetail.valid" (click)="editar()">Editar
+                </ion-button>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+
+        </ion-card-content>
+      </ion-card>
+
+
+      <div class="ion-padding-top">
+
+        <ion-img class="image" src="https://api.adorable.io/avatars/285/abott@adorable.png"></ion-img>
+        <ion-item>
+          <ion-label>
+            <ion-button (click)="eliminarFoto('dd')" color="danger" fill="clear" expand="block">
+              Eliminar foto
+            </ion-button>
+          </ion-label>
+        </ion-item>
+
+      </div>
+
+
+
+    </div>
+
+    <!--Segmento anteriores-->
+    <div *ngSwitchCase="'Anteriores'">
+      anteirores
+    </div>
+
+
+  </span>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" *ngIf="segment == 'Cita'">
+    <ion-fab-button (click)="selectOriginPhoto()">
+      <ion-icon name="camera"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
 </ion-content>
 
 <ion-footer>
