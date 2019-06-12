@@ -122,8 +122,6 @@ export class ScheduleDetailPage implements OnInit {
 
   getPhotosShedule() {
 
-
-
     this.afs.collection('Photos/Schedules', ref => ref.where('uidSchedule', '==', this.uidSchedule)).get().subscribe(
       (data) => {
         console.log('photos ', data);
@@ -137,10 +135,54 @@ export class ScheduleDetailPage implements OnInit {
   cancelarCita() {
     this.sheduleService.cancelSchedule(this.uidSchedule);
     this.messagesService.presentToast('Cita cancelada!');
-    this.close();
+    this.modalCtrl.dismiss({
+      'reload': true
+    });
   }
 
   editar() {
+    this.messagesService.showLoading();
+    let toAdd = '60';
+    let color = 'blue';
+
+    const temDate = String(this.input_dateField.value);
+    const slideDate = temDate.substring(0, 19);
+    const start = moment(slideDate, 'YYYY-MM-DDTHH:mm').format('YYYY-MM-DDTHH:mm');
+
+    switch (this.formDetail.value.input_category) {
+      case 'completo':
+        toAdd = '60';
+        color = 'blue';
+        break;
+      case 'unas':
+        toAdd = '15';
+        color = 'pink';
+        break;
+      case 'motilar':
+        toAdd = '30';
+        color = 'green';
+        break;
+
+      default:
+        toAdd = '60';
+        color = 'blue';
+        break;
+    }
+
+    const end = moment(start).add(toAdd, 'm').format('YYYY-MM-DDTHH:mm');
+    const task = this.sheduleService.editSchedule(this.uidSchedule, start, end, color);
+
+    task.then(() => {
+      this.messagesService.closeLoading();
+      this.messagesService.presentToast('Cita editada!');
+      this.modalCtrl.dismiss({
+        'reload': true
+      });
+    }).catch((err) => {
+      console.log(JSON.stringify(err));
+      this.messagesService.closeLoading();
+      this.messagesService.showAlert('Error!', 'Algo salio mal...');
+    });
 
   }
 

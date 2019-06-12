@@ -60,15 +60,26 @@ export class SheduleService {
 
   cancelSchedule(uidSchedule) {
     this.afs.firestore
-            .collection('Schedule')
-            .doc(uidSchedule)
-            .update({
-              state: false
-            });
+      .collection('Schedule')
+      .doc(uidSchedule)
+      .update({
+        state: false
+      });
+  }
+
+  editSchedule(uid, inicio, fin, categoria) {
+   return this.afs.firestore
+      .collection('Schedule')
+      .doc(uid)
+      .update({
+        backgroundColor: categoria,
+        start: inicio,
+        end: fin
+      });
   }
 
   getSchedules() {
-    return this.afs.collection('Schedule').get().toPromise();
+    return this.afs.collection('Schedule', ref => ref.where('state', '==', true)).get().toPromise();
   }
 
   getOneSchedule(uid) {

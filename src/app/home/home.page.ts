@@ -132,6 +132,10 @@ export class HomePage implements OnInit {
       }
     });
     await modal.present();
+    const { data } = await modal.onDidDismiss();
+    if ( data && data.reload ) {
+      this.loadEvents();
+    }
   }
 
   async openModal(date?) {
@@ -149,9 +153,10 @@ export class HomePage implements OnInit {
 
     const { data } = await modal.onDidDismiss();
     if (data) {
-      this.events.push(data.newSchedule);
-      this.ucCalendar.fullCalendar('renderEvent', data.newSchedule, true);
-      this.ucCalendar.fullCalendar('rerenderEvents');
+      // this.events.push(data.newSchedule);
+      // this.ucCalendar.fullCalendar('renderEvent', data.newSchedule, true);
+      // this.ucCalendar.fullCalendar('rerenderEvents');
+      this.loadEvents();
     }
 
   } // end openModal

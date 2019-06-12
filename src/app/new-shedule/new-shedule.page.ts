@@ -163,6 +163,11 @@ export class NewShedulePage implements OnInit {
     this.messagesService.showLoading();
     let toAdd = '60';
     let color = 'blue';
+
+    const temDate = String(this.formNewSchedule.value.input_date);
+    const slideDate = temDate.substring(0, 19);
+    const start = moment(slideDate, 'YYYY-MM-DDTHH:mm').format('YYYY-MM-DDTHH:mm');
+
     switch (this.formNewSchedule.value.input_category) {
       case 'completo':
         toAdd = '60';
@@ -183,10 +188,10 @@ export class NewShedulePage implements OnInit {
         break;
     }
 
-    const end = moment( this.date ).add(toAdd, 'm').format('YYYY-MM-DDTHH:mm');
+    const end = moment(start).add(toAdd, 'm').format('YYYY-MM-DDTHH:mm');
 
     const newSchedule: Schedule = {
-      start: this.date,
+      start: start,
       end: end,
       title: this.formNewSchedule.value.input_pet.name,
       uidPet: this.formNewSchedule.value.input_pet.uid,
