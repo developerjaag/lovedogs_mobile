@@ -85,6 +85,11 @@ export class SheduleService {
     return this.afs.collection('Schedule', ref => ref.where('state', '==', true)).get().toPromise();
   }
 
+
+  getOldShchedules(date, uidPet) {
+    return this.afs.collection('Schedule', ref => ref.where('end', '<', date).where('uidPet', '==', uidPet)  ).get().toPromise();
+  }
+
   getOneSchedule(uid) {
     return this.afs.collection('Schedule').doc(uid).get().toPromise();
   }
@@ -93,7 +98,7 @@ export class SheduleService {
 
     this.afs.collection('PhotosSchedules').doc(photo.idPhoto).delete();
 
-     this.storage.storage.refFromURL(photo.url).delete();
+    this.storage.storage.refFromURL(photo.url).delete();
   }
 
 }

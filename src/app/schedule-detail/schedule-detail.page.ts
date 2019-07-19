@@ -25,6 +25,11 @@ export class ScheduleDetailPage implements OnInit {
 
   formDetail: FormGroup;
 
+  slideOpts = {
+    initialSlide: 1,
+    speed: 400
+  };
+
 
   @Input() schedule;
   segment = 'Cita';
@@ -62,6 +67,8 @@ export class ScheduleDetailPage implements OnInit {
     this.getDataPet();
     this.getDataOwner();
     this.getPhotosShedule();
+    this.getOldShedules();
+
   }
 
   validartorsFormNewSchedule() {
@@ -78,13 +85,67 @@ export class ScheduleDetailPage implements OnInit {
     return this.formDetail.get('input_category');
   }
 
+  getOldShedules() {
+    console.log('query ', this.schedule.event.end._i, this.uidPet);
+
+
+    this.sheduleService.getOldShchedules(this.schedule.event.end._i, this.uidPet).then((data) => {
+
+      data.forEach(doc => {
+        const dschedule = doc.data();
+        const id = doc.id;
+
+        this.getOldSchedulesPhotos(dschedule.start, id);
+
+
+      });
+
+    });
+  }
+
+  getOldSchedulesPhotos(date, uidSchedule) {
+
+    this.afs.collection('PhotosSchedules', ref => ref.where('uidSchedule', '==', uidSchedule)).get().toPromise().then((data) => {
+      let haveData = false;
+      const toPush = [];
+
+      data.forEach(doc => {
+        haveData = true;
+        const datos = doc.data();
+        toPush.push(datos);
+      });
+
+      if (haveData) {
+
+        const obj = {
+          date,
+          photos: toPush
+        };
+
+        this.oldSchedules.push(obj);
+
+
+      }
+
+    });
+
+  }
+
+  convertDate(date) {
+
+    moment.locale('es');
+
+    return moment(date, 'YYYY-MM-DDTHH:mm').format('dddd D MMMM');
+
+  }
+
   getSchedule() {
     this.messagesService.showLoading();
     this.sheduleService.getOneSchedule(this.uidSchedule).then((data) => {
       this.scheduleData = data.data();
       this.messagesService.closeLoading();
 
-      console.log(this.scheduleData);
+      // console.log(this.scheduleData);
       this.input_dateField.setValue(this.scheduleData.start);
       switch (this.scheduleData.backgroundColor) {
         case 'blue':
@@ -268,9 +329,9 @@ export class ScheduleDetailPage implements OnInit {
       imageData => {
         // imageData is either a base64 encoded string or a file URI
         // If it's base64:
-        const base64Image = 'data:image/jpeg;base64,' + imageData;
+        // const base64Image = 'data:image/jpeg;base64,' + imageData;
         const name = String(new Date().getUTCMilliseconds());
-        this.sheduleService.savePhotoInSchedule(base64Image, this.uidSchedule, this.uidPet, name);
+        this.sheduleService.savePhotoInSchedule(imageData, this.uidSchedule, this.uidPet, name);
       },
       err => {
         // Handle error
