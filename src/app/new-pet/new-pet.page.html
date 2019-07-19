@@ -11,53 +11,143 @@
     <ion-card-content>
 
       <form [formGroup]="formNewPet">
-      <ion-item>
-        <ion-label position="floating">Nombre*</ion-label>
-        <ion-input type="text" formControlName="input_name"></ion-input>
-      </ion-item>
+        <ion-item>
+          <ion-label position="floating">Nombre*</ion-label>
+          <ion-input type="text" formControlName="input_name"></ion-input>
+        </ion-item>
 
-      <ion-item>
-        <ion-label>Tamaño</ion-label>
-        <ion-select placeholder="Elige..." okText="Elegir" cancelText="Cerrar" formControlName="input_size">
-          <ion-select-option value="pequeño">Pequeño</ion-select-option>
-          <ion-select-option value="mediano">Mediano</ion-select-option>
-          <ion-select-option value="grande">Grande</ion-select-option>
-          <ion-select-option value="gigante">Gigante</ion-select-option>
+        <ion-item>
+          <ion-label>Tamaño</ion-label>
+          <ion-select placeholder="Elige..." okText="Elegir" cancelText="Cerrar" formControlName="input_size">
+            <ion-select-option value="pequeño">Pequeño</ion-select-option>
+            <ion-select-option value="mediano">Mediano</ion-select-option>
+            <ion-select-option value="grande">Grande</ion-select-option>
+            <ion-select-option value="gigante">Gigante</ion-select-option>
 
-        </ion-select>
-      </ion-item>
-
-
-      <ion-item>
-        <ion-label>Genero</ion-label>
-        <ion-select placeholder="Elige..." okText="Elegir" cancelText="Cerrar" formControlName="input_genere">
-          <ion-select-option value="macho">Macho</ion-select-option>
-          <ion-select-option value="hembra">Hembra</ion-select-option>
-        </ion-select>
-      </ion-item>
-
-      <ion-item>
-        <ion-label>Raza</ion-label>
-        <ion-select placeholder="Elige..." okText="Elegir" cancelText="Cerrar" formControlName="input_race">
-          <ion-select-option value="Husky">Husky</ion-select-option>
-          <ion-select-option value="Alaska">Alaska</ion-select-option>
-          <ion-select-option value="Mestizo">Mestizo</ion-select-option>
-        </ion-select>
-      </ion-item>
-
-      <ion-item>
-        <ion-label>Fecha de nacimiento</ion-label>
-        <ion-datetime month-short-names="Ene, Feb, Mar, Abr, May, Jun, Jul, Ago, Sep, Oct, Nov, Dec"
-          display-format="MMM DD, YYYY" cancel-text="Cancelar" done-text="Elegir" formControlName="input_birthday"></ion-datetime>
-      </ion-item>
+          </ion-select>
+        </ion-item>
 
 
-      <ion-item>
-        <ion-label position="floating" >Nota</ion-label>
-        <ion-textarea formControlName="input_note"></ion-textarea>
-      </ion-item>
+        <ion-item>
+          <ion-label>Genero</ion-label>
+          <ion-select placeholder="Elige..." okText="Elegir" cancelText="Cerrar" formControlName="input_genere">
+            <ion-select-option value="macho">Macho</ion-select-option>
+            <ion-select-option value="hembra">Hembra</ion-select-option>
+          </ion-select>
+        </ion-item>
 
-    </form>
+        <ion-item>
+          <ion-label>Raza</ion-label>
+          <ion-select placeholder="Elige..." okText="Elegir" cancelText="Cerrar" formControlName="input_race">
+
+
+            <ion-select-option value="Mestizo">Mestizo</ion-select-option>
+            <ion-select-option value="Alano">Alano</ion-select-option>
+            <ion-select-option value="Alaskan Malamute">Alaskan Malamute</ion-select-option>
+            <ion-select-option value="American Staffordshire Terrier">American Staffordshire Terrier</ion-select-option>
+            <ion-select-option value="American Water Spaniel">American Water Spaniel</ion-select-option>
+            <ion-select-option value="Antiguo Pastor Inglés">Antiguo Pastor Inglés</ion-select-option>
+            <ion-select-option value="Basset Azul de Gaseogne">Basset Azul de Gaseogne</ion-select-option>
+            <ion-select-option value="Basset Hound">Basset Hound</ion-select-option>
+            <ion-select-option value="Basset leonado de Bretaña">Basset leonado de Bretaña</ion-select-option>
+            <ion-select-option value="Beagle">Beagle</ion-select-option>
+            <ion-select-option value="Bearded Collie">Bearded Collie</ion-select-option>
+            <ion-select-option value="Bichón Maltés">Bichón Maltés</ion-select-option>
+            <ion-select-option value="Bobtail">Bobtail</ion-select-option>
+            <ion-select-option value="Border Collie">Border Collie</ion-select-option>
+            <ion-select-option value="Boston Terrier">Boston Terrier</ion-select-option>
+            <ion-select-option value="Boxer">Boxer</ion-select-option>
+            <ion-select-option value="Bull Terrier">Bull Terrier</ion-select-option>
+            <ion-select-option value="Bulldog Americano">Bulldog Americano</ion-select-option>
+            <ion-select-option value="Bulldog Francés">Bulldog Francés</ion-select-option>
+            <ion-select-option value="Bulldog Inglés">Bulldog Inglés</ion-select-option>
+            <ion-select-option value="Caniche">Caniche</ion-select-option>
+            <ion-select-option value="Carlino">Carlino</ion-select-option>
+            <ion-select-option value="Chihuahua">Chihuahua</ion-select-option>
+            <ion-select-option value="Cirneco del Etna">Cirneco del Etna</ion-select-option>
+            <ion-select-option value="Chow Chow">Chow Chow</ion-select-option>
+            <ion-select-option value="Cocker Spaniel Americano">Cocker Spaniel Americano</ion-select-option>
+            <ion-select-option value="Cocker Spaniel Inglés">Cocker Spaniel Inglés</ion-select-option>
+            <ion-select-option value="Dálmata">Dálmata</ion-select-option>
+            <ion-select-option value="Dobermann">Dobermann</ion-select-option>
+            <ion-select-option value="Dogo Alemán">Dogo Alemán</ion-select-option>
+            <ion-select-option value="Dogo Argentino">Dogo Argentino</ion-select-option>
+            <ion-select-option value="Dogo de Burdeos">Dogo de Burdeos</ion-select-option>
+            <ion-select-option value="Finlandés">Finlandés</ion-select-option>
+            <ion-select-option value="Fox Terrier de pelo liso">Fox Terrier de pelo liso</ion-select-option>
+            <ion-select-option value="Fox Terrier">Fox Terrier</ion-select-option>
+            <ion-select-option value="Foxhound Americano">Foxhound Americano</ion-select-option>
+            <ion-select-option value="Foxhound Inglés">Foxhound Inglés</ion-select-option>
+            <ion-select-option value="Galgo Afgano">Galgo Afgano</ion-select-option>
+            <ion-select-option value="Gigante de los Pirineos">Gigante de los Pirineos</ion-select-option>
+            <ion-select-option value="Golden Retriever">Golden Retriever</ion-select-option>
+            <ion-select-option value="Gos d'Atura">Gos d'Atura</ion-select-option>
+            <ion-select-option value="Gran Danés">Gran Danés</ion-select-option>
+            <ion-select-option value="Husky Siberiano">Husky Siberiano</ion-select-option>
+            <ion-select-option value="Laika de Siberia Occidental">Laika de Siberia Occidental</ion-select-option>
+            <ion-select-option value="Laika Ruso-europeo">Laika Ruso-europeo</ion-select-option>
+            <ion-select-option value="Labrador Retriever">Labrador Retriever</ion-select-option>
+            <ion-select-option value="Mastín del Pirineo">Mastín del Pirineo</ion-select-option>
+            <ion-select-option value="Mastin del Tibet">Mastin del Tibet</ion-select-option>
+            <ion-select-option value="Mastín Español">Mastín Español</ion-select-option>
+            <ion-select-option value="Mastín Napolitano">Mastín Napolitano</ion-select-option>
+            <ion-select-option value="Pastor Alemán">Pastor Alemán</ion-select-option>
+            <ion-select-option value="Pastor Australiano">Pastor Australiano</ion-select-option>
+            <ion-select-option value="Pastor Belga">Pastor Belga</ion-select-option>
+            <ion-select-option value="Pastor de Brie">Pastor de Brie</ion-select-option>
+            <ion-select-option value="Pekinés">Pekinés</ion-select-option>
+            <ion-select-option value="Perdiguero Chesapeake Bay">Perdiguero Chesapeake Bay</ion-select-option>
+            <ion-select-option value="Perdiguero de Drentse">Perdiguero de Drentse</ion-select-option>
+            <ion-select-option value="Perdiguero de Pelo lido">Perdiguero de Pelo lido</ion-select-option>
+            <ion-select-option value="Perdiguero de pelo rizado">Perdiguero de pelo rizado</ion-select-option>
+            <ion-select-option value="Perdiguero Portugués">Perdiguero Portugués</ion-select-option>
+            <ion-select-option value="Pitbull">Pitbull</ion-select-option>
+            <ion-select-option value="Podenco Ibicenco">Podenco Ibicenco</ion-select-option>
+            <ion-select-option value="Podenco Portugués">Podenco Portugués</ion-select-option>
+            <ion-select-option value="presa canario">presa canario</ion-select-option>
+            <ion-select-option value="Presa Mallorquin">Presa Mallorquin</ion-select-option>
+            <ion-select-option value="Rottweiler">Rottweiler</ion-select-option>
+            <ion-select-option value="Rough Collie">Rough Collie</ion-select-option>
+            <ion-select-option value="Sabueso Español">Sabueso Español</ion-select-option>
+            <ion-select-option value="Sabueso Hélenico">Sabueso Hélenico</ion-select-option>
+            <ion-select-option value="Sabueso Italiano">Sabueso Italiano</ion-select-option>
+            <ion-select-option value="Sabueso Suizo">Sabueso Suizo</ion-select-option>
+            <ion-select-option value="Samoyedo">Samoyedo</ion-select-option>
+            <ion-select-option value="San Bernardo">San Bernardo</ion-select-option>
+            <ion-select-option value="Scottish Terrier">Scottish Terrier</ion-select-option>
+            <ion-select-option value="Setter Irlandés">Setter Irlandés</ion-select-option>
+            <ion-select-option value="Shar Pei">Shar Pei</ion-select-option>
+            <ion-select-option value="Shiba Inu">Shiba Inu</ion-select-option>
+            <ion-select-option value="Siberian Husky">Siberian Husky</ion-select-option>
+            <ion-select-option value="Staffordshire Bull Terrier">Staffordshire Bull Terrier</ion-select-option>
+            <ion-select-option value="Teckel">Teckel</ion-select-option>
+            <ion-select-option value="Terranova">Terranova</ion-select-option>
+            <ion-select-option value="Terrier Australiano">Terrier Australiano</ion-select-option>
+            <ion-select-option value="Terrier Escocés">Terrier Escocés</ion-select-option>
+            <ion-select-option value="Terrier Irlandés">Terrier Irlandés</ion-select-option>
+            <ion-select-option value="Terrier Japonés">Terrier Japonés</ion-select-option>
+            <ion-select-option value="Terrier Negro Ruso">Terrier Negro Ruso</ion-select-option>
+            <ion-select-option value="Terrier Norfolk">Terrier Norfolk</ion-select-option>
+            <ion-select-option value="Terrier Norwich">Terrier Norwich</ion-select-option>
+            <ion-select-option value="Yorkshire Terrier">Yorkshire Terrier</ion-select-option>
+
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Fecha de nacimiento</ion-label>
+          <ion-datetime month-short-names="Ene, Feb, Mar, Abr, May, Jun, Jul, Ago, Sep, Oct, Nov, Dec"
+            display-format="MMM DD, YYYY" cancel-text="Cancelar" done-text="Elegir" formControlName="input_birthday">
+          </ion-datetime>
+        </ion-item>
+
+
+        <ion-item>
+          <ion-label position="floating">Nota</ion-label>
+          <ion-textarea formControlName="input_note"></ion-textarea>
+        </ion-item>
+
+      </form>
 
       <ion-grid>
         <ion-row>
