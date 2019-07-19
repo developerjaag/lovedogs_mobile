@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFireStorage } from '@angular/fire/storage';
 
 import * as firebase from 'firebase';
 
@@ -11,7 +12,10 @@ import { Schedule } from '../../models/shedule.model';
 })
 export class SheduleService {
 
-  constructor(private afs: AngularFirestore) { }
+  constructor(
+    private afs: AngularFirestore,
+    private storage: AngularFireStorage
+  ) { }
 
   saveSchedule(newSchedule: Schedule) {
     return this.afs.collection('Schedule').add({
@@ -26,9 +30,8 @@ export class SheduleService {
 
   }
 
-  savePhotoInSchedule(photo: string, uidSchedule: string, uidPet: string) {
+  savePhotoInSchedule(photo: string, uidSchedule: string, uidPet: string, name: string) {
 
-    const name = String(new Date().getUTCMilliseconds());
     const photoRef = firebase.storage().ref(`Photos/Schedule/${uidSchedule}/${name}.png`).putString(photo, 'base64');
 
     photoRef.on(
@@ -46,7 +49,7 @@ export class SheduleService {
         photoRef.snapshot.ref.getDownloadURL().then((downloadURL) => {
           // save on firestore
           this.afs.firestore
-            .collection(`Photos/Schedules`)
+            .collection(`/PhotosSchedules/`)
             .add({
               photo: downloadURL,
               uidSchedule: uidSchedule,
@@ -68,7 +71,7 @@ export class SheduleService {
   }
 
   editSchedule(uid, inicio, fin, categoria) {
-   return this.afs.firestore
+    return this.afs.firestore
       .collection('Schedule')
       .doc(uid)
       .update({
@@ -84,6 +87,13 @@ export class SheduleService {
 
   getOneSchedule(uid) {
     return this.afs.collection('Schedule').doc(uid).get().toPromise();
+  }
+
+  deletePhotoSchedule(photo) {
+
+    this.afs.collection('PhotosSchedules').doc(photo.idPhoto).delete();
+
+     this.storage.storage.refFromURL(photo.url).delete();
   }
 
 }

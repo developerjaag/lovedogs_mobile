@@ -3,6 +3,8 @@ import { ModalController, AlertController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 
+import { map } from 'rxjs/operators';
+
 
 import { AngularFirestore } from '@angular/fire/firestore';
 
@@ -33,8 +35,6 @@ export class ScheduleDetailPage implements OnInit {
   ownerData: any;
   petData: any;
   photos = [];
-  photo: any;
-  photoToSend: any;
   oldSchedules = [];
 
 
@@ -61,6 +61,7 @@ export class ScheduleDetailPage implements OnInit {
     this.getSchedule();
     this.getDataPet();
     this.getDataOwner();
+    this.getPhotosShedule();
   }
 
   validartorsFormNewSchedule() {
@@ -122,17 +123,58 @@ export class ScheduleDetailPage implements OnInit {
 
   getPhotosShedule() {
 
-    this.afs.collection('Photos/Schedules', ref => ref.where('uidSchedule', '==', this.uidSchedule)).get().subscribe(
-      (data) => {
-        console.log('photos ', data);
-      }
-    );
+    this.afs.collection('PhotosSchedules', ref => ref.where('uidSchedule', '==', this.uidSchedule))
+      .snapshotChanges().subscribe(actions => {
+
+        this.photos = [];
+        actions.forEach(action => {
+          const value: any = action.payload.doc.data();
+          const id = action.payload.doc.id;
+          // console.log(id, value);
+
+          const p = {
+            url: value.photo,
+            uidPet: value.uidPet,
+            uidSchedule: value.uidSchedule,
+            idPhoto: id
+          };
+
+          this.photos.push(p);
+
+        });
+
+
+
+      });
+
 
   }
 
 
 
+  async cancelConfirm() {
+    const alert = await this.alertController.create({
+      header: 'Cancelar!',
+      message: 'Cancelar esta cita?',
+      buttons: [
+        {
+          text: 'No',
+          role: 'cancel'
+        }, {
+          text: 'Si',
+          handler: () => {
+            this.cancelarCita();
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+
   cancelarCita() {
+
     this.sheduleService.cancelSchedule(this.uidSchedule);
     this.messagesService.presentToast('Cita cancelada!');
     this.modalCtrl.dismiss({
@@ -210,6 +252,7 @@ export class ScheduleDetailPage implements OnInit {
   }
 
   chosePhoto(sourceType: number) {
+
     const options: CameraOptions = {
       quality: 70,
       destinationType: this.camera.DestinationType.DATA_URL,
@@ -226,8 +269,8 @@ export class ScheduleDetailPage implements OnInit {
         // imageData is either a base64 encoded string or a file URI
         // If it's base64:
         const base64Image = 'data:image/jpeg;base64,' + imageData;
-        this.photo = base64Image;
-        this.photoToSend = imageData;
+        const name = String(new Date().getUTCMilliseconds());
+        this.sheduleService.savePhotoInSchedule(base64Image, this.uidSchedule, this.uidPet, name);
       },
       err => {
         // Handle error
@@ -236,7 +279,13 @@ export class ScheduleDetailPage implements OnInit {
     );
   }
 
-  eliminarFoto(uid) {
+  uploadPhoto() {
+
+  }
+
+  eliminarFoto(photo) {
+
+    this.sheduleService.deletePhotoSchedule(photo);
 
   }
 

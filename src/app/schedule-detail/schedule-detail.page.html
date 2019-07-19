@@ -4,7 +4,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content >
 
   <ion-segment [(ngModel)]="segment">
     <ion-segment-button value="Cita" class="ion-text-capitalize">
@@ -20,7 +20,7 @@
     <!--Segmento cita-->
     <div *ngSwitchCase="'Cita'">
 
-      <ion-card>
+      <ion-card >
         <ion-card-content>
 
           <ion-item *ngIf="ownerData">
@@ -72,11 +72,11 @@
 
           <ion-grid>
             <ion-row>
-              <ion-col>
-                <ion-button color="danger" fill="clear" (click)="cancelarCita()">Cancelar cita</ion-button>
+              <ion-col size="6" >
+                <ion-button color="danger" fill="clear" expand="block" (click)="cancelConfirm()">Cancelar cita</ion-button>
               </ion-col>
-              <ion-col>
-                <ion-button color="primary" fill="clear" [disabled]="!formDetail.valid" (click)="editar()">Editar
+              <ion-col size="6">
+                <ion-button color="primary" fill="clear" expand="block" [disabled]="!formDetail.valid" (click)="editar()">Editar
                 </ion-button>
               </ion-col>
             </ion-row>
@@ -88,14 +88,19 @@
 
       <div class="ion-padding-top">
 
-        <ion-img class="image" src="https://api.adorable.io/avatars/285/abott@adorable.png"></ion-img>
-        <ion-item>
-          <ion-label>
-            <ion-button (click)="eliminarFoto('dd')" color="danger" fill="clear" expand="block">
-              Eliminar foto
-            </ion-button>
-          </ion-label>
-        </ion-item>
+        <ng-container *ngFor="let photo of photos" >
+          
+          <ion-img class="image" [src]="photo.url"></ion-img>
+          <ion-item>
+            <ion-label>
+              <ion-button (click)="eliminarFoto(photo)" color="danger" fill="clear" expand="block">
+                Eliminar foto
+              </ion-button>
+            </ion-label>
+          </ion-item>
+        </ng-container>
+        
+
 
       </div>
 

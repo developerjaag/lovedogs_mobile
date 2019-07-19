@@ -17,6 +17,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFireModule } from '@angular/fire';
 import { environment } from '../environments/environment';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFireStorageModule } from '@angular/fire/storage';
 
 import { NewOwnerPageModule } from './new-owner/new-owner.module';
 import { NewPetPageModule } from './new-pet/new-pet.module';
@@ -30,6 +31,7 @@ import { ScheduleDetailPageModule  } from './schedule-detail/schedule-detail.mod
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
+    AngularFireStorageModule,
     AngularFireModule.initializeApp(environment.firebase),
     NewOwnerPageModule,
     NewPetPageModule,
